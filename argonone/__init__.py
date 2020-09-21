@@ -31,6 +31,7 @@ __all__ = [
 
 dbus.mainloop.glib.threads_init()
 log = logging.getLogger("argononed")
+log.setLevel(logger.INFO)
 
 NOTIFY = Enum('NOTIFY', [
   ('VALUE_TEMPERATURE', "temperature"),
