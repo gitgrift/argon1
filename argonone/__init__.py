@@ -75,7 +75,14 @@ class ArgonOneBoard:
   def __init__(self, initial_speed: Optional[int] = 0, bus_mutex: Optional[Lock] = None):
     self._bus_mutex = bus_mutex if bus_mutex is not None else nullcontext()
     # Set up I2C and initialize fan speed
-    self._bus = smbus.SMBus(_SMBUS_DEV)
+    try:
+      self._bus = smbus.SMBus(_SMBUS_DEV)
+    except FileNotFoundError:
+      log.warn("i2c device not found. Ensure the necessary i2c kernel modules are loaded")
+      raise
+    except PermissionError:
+      log.warn("i2c device not accessible. Ensure user is a member of the i2c group")
+      raise
     if initial_speed is not None:
       self.fan_speed = initial_speed  # sets self._fan_speed, and also issues I2C command
     else:
