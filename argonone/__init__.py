@@ -279,9 +279,9 @@ class PowerControlThread(Thread):
     log.info("Power button monitoring and control thread starting")
     self._stop_requested = False
     while not self._stop_requested:
-      log.info("DBG: calling .wait_for_button")
+      log.debug("calling .wait_for_button")
       button_press = self._argon_board.wait_for_button()
-      log.info("DBG: button_press = %s", button_press)
+      log.debug("button_press = %s", button_press)
       # XXX Originally assumed this would serve as an "ACK",
       #   but that is not the case (see comment above)
       # if button_press is not None:
